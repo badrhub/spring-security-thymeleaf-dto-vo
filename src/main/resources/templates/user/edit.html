@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Edit</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/login.css}" />
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+
+ </head>
+<body>
+<div class="container">
+ <form th:action="@{/superadm/update}" method="POST" class="form-signin" th:object="${uv}">
+ <div class="alert alert-primary">
+ Modification de l'utilisateur  <span style ="color:red;" th:text="${uv.username}"></span> 
+ </div>
+
+ <input th:field="*{id}" type="hidden" id="id" name="name" th:placeholder="Name" class="form-control"/> <br/>
+ <label for="name">Username :</label>
+ <input th:field="*{username}" type="text" id="name" name="name" th:placeholder="Name" class="form-control"/> <br/>
+ <label for="email">Email :</label>
+ <input th:field="*{email}" type="text" id="email" name="email" th:placeholder="Email" class="form-control"/> <br/>
+ <input type="checkbox"  id="ck"/> &nbsp; Initialiser Mot de passe<br>
+ <div style="display: none;" id="psi">
+ <label for="password">Password :</label>
+  <input th:field="*{password}" type="password" id="password" name="password"  class="form-control "/> <br/>
+  </div>
+ <div class="alert alert-info mt-2" >
+ Liste des Roles
+ </div>
+  <div  th:if="${uv.roles == null }" >
+  aucun role !!!!!
+  </div>
+<div  th:if="${uv.roles != null }" >
+ <table class="table table-striped table-hover">
+ <thead>
+ <tr>
+ <th>role</th>
+ <th>actions</th>
+ </tr>
+ </thead>
+<!--  <div th:each="userAddress, stat : *{userAddresses}"> -->
+<!--    ... -->
+<!--    <input type="text" th:field="*{userAddresses[__${stat.index}__].userStreet}" /> -->
+<!--    ... -->
+<!-- </div> -->
+ <tbody>
+ <tr th:each=" x ,r : *{roles}"  th:field="*{roles}">
+ <td th:text="*{roles[__${r.index}__].role}" th:value="${x.id}">  </td>
+ <td><a th:href="@{/superadm/deleteRole/{id1}/{id2}(id2 = ${x.id},id1 = ${uv.id})}" style="margin-left: 12px;">Supprimer</a></td>
+ </tr>
+ </tbody>
+ </table>
+</div> 
+ <div align="center" th:if="${param.error}">
+ <p style="font-size: 20; color: #FF1C19;">blallalallala</p>
+ </div>
+  <br>
+  <button class="btn  btn-primary " name="Submit" value="Login" type="Submit" th:text="Valider"></button>
+ <a href="javascript:history.go(-1)" class="btn btn-primary">Annuler</a>
+ </form>
+ <div style="max-width: 500px; padding: 15px 15px 15px; margin: 0 auto; background-color: #fff; border: 3px dotted rgba(0,0,0,0.1);">
+ <div class="alert alert-primary">Add Role</div>
+ <div th:each="i : ${rooles}" >
+    <span  th:text="${i.role}"></span>
+   <a  th:href="@{/superadm/addRole/{id1}/{id2}(id1 = ${uv.id} ,id2= ${i.id})}" style="margin-left: 12px;">Add</a>
+   <br>
+ </div>
+ </div>
+ 
+ 
+ </div>
+
+
+<script type="text/javascript" th:src="@{/js/jquery.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+
+<script type="text/javascript">
+
+$("#ck").change(function () {
+  // $("#psi").toggle();
+      if (document.getElementById('ck').checked) {
+    	   document.getElementById("psi").style.display = "block";  
+        } else {
+        	  document.getElementById("psi").style.display = "none";    
+        }
+	  
+});
+
+</script>
+</body>
+</html>
+
+<!--
+{listId}/{itemId}(listId=${list.id},itemId=${item.id})}
+ L’application affiche en bas de la même page le formulaire contenant les éléments de
+l’utilisateur à modifier (uniquement userName et les rôles qui peuvent être modifiés) et le
+bouton «Valider».
+- Le mot de passe de l’utilisateur est masqué et ceci pour des raisons de sécurité.
+- Le client saisit ses modifications et clique sur le bouton «Valider».
+- Le formulaire prévoit également une case à cocher « Initialiser Mot de passe ». Si le super
+admin coche cette case à cocher, le système l’invite à saisir un nouveau mot de passe.
+- L’application prend en considération les modifications effectuées et affiche la liste des
+utilisateurs mise à jour.
+- L’application envoi également un mail à l’utilisateurs lui informant des modifications
+effectuées.
+ -->

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>List Employees</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" />
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" >
+</head>
+<body>
+<div class="container">
+ 
+ 
+ <div class="alert alert-warning">
+ <span th:utext="${userName}"></span>
+ 
+ <form th:action="@{/logout}" method="get">
+ <div class="text-right mt-n3"><button class="btn btn-danger " name="registration" type="Submit">Logout</button></div>
+ </form>
+ </div>
+ <div class="text-right m-3">
+ <a href="/admin/emp/form" class="btn btn-primary">Nouveau</a>
+ </div>
+
+ <div th:switch="${list}">
+ <div class="alert alert-info" th:case="null">
+ <h3> Aucun employé !</h3>
+</div>
+ <div th:case="*" class="alert alert-info">
+ <h3>Liste des employés</h3>
+ </div>
+ <div class="table-responsive">
+ <table class="table table-striped table-hover ">
+ <thead>
+ <tr>
+ <th>Name</th>
+ <th>Salary</th>
+ <th>Fonction</th>
+ <th>Actions</th>
+ </tr>
+ </thead>
+<tbody>
+ <tr th:each="empVo : ${list}">
+ <td th:text="${empVo.name}"></td>
+ <td th:text="${empVo.salary}"></td>
+ <td th:text="${empVo.fonction}"></td>
+ <td>
+<a th:href="@{/admin/emp/edit/{id}(id=${empVo.id})}" >Edit</a>
+<a th:href="@{/admin/emp/delete/{id}(id=${empVo.id})}" style="margin-left: 12px;">Delete</a>
+</td>
+  </tr>
+ </tbody>
+ </table>
+ </div>
+  </div>
+
+ </div>
+ </div>
+<p class="admin-message-text text-center" th:utext="${adminMessage}"></p>
+ </div>
+
+
+</body>
+</html>

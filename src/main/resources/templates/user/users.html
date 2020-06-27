@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>List Employees</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" />
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" >
+</head>
+<body>
+<div class="container">
+ 
+ 
+ <div class="alert alert-warning">
+ <span th:utext="${userName}"></span>
+ 
+ <form th:action="@{/logout}" method="get">
+ <div class="text-right mt-n3"><button class="btn btn-danger " name="registration" type="Submit">Logout</button></div>
+ </form>
+ </div>
+ <div class="text-right m-3">
+ <a th:href="@{/superadm/nouveau}" class="btn btn-primary">Nouvel utilisateur</a>
+ </div>
+
+ <div th:switch="${list}">
+ <div class="alert alert-info" th:case="null">
+ <h3> Aucun utilisateur !</h3>
+</div>
+ <div th:case="*" class="alert alert-info">
+ <h3>Liste des utilisateurs</h3>
+ </div>
+ <div class="table-responsive">
+ <table class="table table-striped table-hover ">
+ <thead>
+ <tr>
+ <th>Username</th>
+ <th>Email</th>
+ <th>Roles</th>
+ <th>Actions</th>
+ </tr>
+ </thead>
+<tbody>
+ <tr th:each="uv : ${list}">
+  <td th:text="${uv.username}"></td>
+  <td th:text="${uv.email}"></td>
+  <td  th:if="${uv.roles == null }">
+    aucun role !!!!!
+  </td>
+  <td  th:if="${uv.roles != null }">
+  <div th:each="r : ${uv.roles}">
+  <span th:text="${r.role}" ></span>
+  </div>
+    
+  </td>
+  <td>
+<a th:href="@{/superadm/edit/{id}(id = ${uv.id})}" >Modifier</a>
+<a th:href="@{/superadm/delete/{id}(id = ${uv.id})}" style="margin-left: 12px;">Supprimer</a>
+</td>
+  </tr>
+ </tbody>
+ </table>
+ </div>
+  </div>
+ <div>
+<p class="admin-message-text text-center" th:utext="${adminMessage}"></p>
+ </div>
+ </div>
+
+
+
+</body>
+</html>

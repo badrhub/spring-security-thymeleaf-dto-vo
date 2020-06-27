@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:th="http://www.thymeleaf.org">
+<head>
+ <title>Form</title>
+ <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}"/>
+ <link rel="stylesheet"
+href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+ <script
+src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+ <script
+src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+ <form th:action="@{/superadm/save}" method="POST" class="form-signin" th:object="${uv}">
+ <div class="alert alert-primary">
+  Nouveau utilisateur   
+ </div>
+ <div align="center" th:if="${error != null}">
+ <p style="font-size: 20; color: #FF1C19;"><span th:text="${error}"></span></p>
+ </div>
+ <label for="name">Username :</label>
+ <input th:field="*{username}" type="text" id="name" name="name" th:placeholder="Name" class="form-control"/> <br/>
+ <label for="email">Email :</label>
+ <input th:field="*{email}" type="text" id="email" name="email" th:placeholder="Email" class="form-control"/> <br/>
+ <label for="password">Password :</label>
+ <input th:field="*{password}" type="password" id="password" name="password"  class="form-control "/> <br/>
+ <label class="control-label" for="rl">Role</label>
+ <select class="form-control" id="rl" th:field="*{roles}">
+                <option value="" selected>----SELECT Role----</option>
+                <option th:each="r : ${rooles}" th:value="${r.role}" th:text="${r.role}"></option>
+ </select>
+ <button class="btn  btn-primary " name="Submit" value="Login" type="Submit" th:text="Valider"></button>
+ <a href="javascript:history.go(-1)" class="btn btn-primary">Annuler</a>
+  </form>
+ </div>
+</body>
+</html>
